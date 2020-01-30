@@ -61,10 +61,8 @@ namespace blindfolio
 
             // ファイルを開く
             PdfReader reader = new PdfReader(inputFileName);
-            //Document document = new Document(size);
             FileStream fs = new FileStream(outputFileName, FileMode.Create, FileAccess.Write);
             PdfStamper stamper = new PdfStamper(reader, fs);
-            //document.Open();
 
             // 不透明度指定用のグラフィックステート
             PdfGState gs = new PdfGState();
@@ -78,21 +76,24 @@ namespace blindfolio
             for (int page = 1; page <= totalPageNum; page++)
             {
                 // 隠しノンブルの文字列
-                string nombre = (startNombre + page - 1).ToString();
+                string text = (startNombre + page - 1).ToString();
                 Font font = FontFactory.GetFont(FontFactory.COURIER, FontSize, Font.NORMAL, BaseColor.BLACK);
-                Chunk chunk = new Chunk(nombre, font);
-                Phrase phrase = new Phrase(chunk);
+                string[] chars = new string[text.Length];
+                for(int i = 0; i < text.Length; i++){
+                    chars[i] = new string(text[i], 1);
+                }
+                Phrase phrase = new Phrase();
+                phrase.Add(new Chunk(chars[0], font));
+                for(int i = 1; i < text.Length; i++){
+                    phrase.Add(new Chunk("\n" + chars[i], font));
+                }
 
                 // ページのサイズ
                 Rectangle pageSize = reader.GetPageSize(page);
 
-                // 揃え
-                if ((page % 2) == 0){
-                }else{
-                }
                 // 隠しノンブルのy座標
                 float ly = footOffset;
-                float uy = footOffset + FontSize;
+                float uy = footOffset + FontSize * text.Length;
                 // 隠しノンブルのx座標
                 int align;
                 float lx, rx;
@@ -121,19 +122,7 @@ namespace blindfolio
                 a_page.RestoreState();
             }
 
-            //PdfContentByte pdfContentByte = outputFile.DirectContent;
-            //var page = outputFile.GetImportedPage(inputFile, 1);
-            //pdfContentByte.AddTemplate(page, 0, 0);
-
-            //pdfContentByte.BeginText();
-            //pdfContentByte.ShowTextAligned(Element.ALIGN_LEFT, text, x, y, 0);
-            //pdfContentByte.EndText();
-
-            //
-
-
             // ファイルを閉じる
-            //document.Close();
             stamper.Close();
             fs.Close();
             reader.Close();
