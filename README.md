@@ -5,7 +5,7 @@ PDFに隠しノンブルを追加するコマンドラインツール
 WindowsのコマンドプロンプトまたはPowerShell用です。
 
 ## 隠しノンブルとは
-製本すると見えにくくなるようにノド側に入れるページ番号。製本のために必要な場合がある。
+製本すると見えにくくなるようにノド側に入れるページ番号。製本のために必要な場合があります。
 
 ## 依存ライブラリ
 * iTextSharp
@@ -27,4 +27,4 @@ blindfolio inputfile outputfile foot gutter start size
 ```
 blindfolio input.pdf output.pdf 30 20 1 6
 ```
-input.pdfに、地から30mm、ノドから20mmの位置に1から始まる隠しノンブルを6ptのフォントで記入し、output.pdfとして出力する。
+input.pdfに、地から30mm、ノドから20mmの位置に1から始まる隠しノンブルを6ptのフォントで記入し、output.pdfとして出力します。
