@@ -30,6 +30,7 @@ namespace blindfolio
             {
                 Console.WriteLine("Input file not found!");
                 Console.WriteLine("Usage: blindfolio inputfile outputfile foot gutter start size");
+                return;
             }
             try{
                 footOffset = float.Parse(args[2]);
@@ -63,19 +64,33 @@ namespace blindfolio
             }
 
             // ファイルを開く
-            PdfReader reader = new PdfReader(inputFileName);
-            FileStream fs = new FileStream(outputFileName, FileMode.Create, FileAccess.Write);
+            PdfReader reader;
+            try{
+                reader = new PdfReader(inputFileName);
+            }catch(Exception e){
+                Console.WriteLine(e.Message);
+                Console.WriteLine("Usage: blindfolio inputfile outputfile foot gutter start size");
+                return;
+            }
+            FileStream fs;
+            try{
+                fs = new FileStream(outputFileName, FileMode.Create, FileAccess.Write);
+            }catch(Exception e){
+                Console.WriteLine(e.Message);
+                Console.WriteLine("Usage: blindfolio inputfile outputfile foot gutter start size");
+                return;
+            }
             PdfStamper stamper = new PdfStamper(reader, fs);
 
             // 不透明度指定用のグラフィックステート
-            PdfGState gs = new PdfGState();
-            gs.FillOpacity = 1.0f;
+            //PdfGState gs = new PdfGState();
+            //gs.FillOpacity = 1.0f;
 
             // 各ページについて
             int totalPageNum = reader.NumberOfPages; // 総ページ数
             for (int page = 1; page <= totalPageNum; page++)
             {
-                // 隠しノンブルの文字列
+                // 隠しノンブルの文字
                 string text = (startNombre + page - 1).ToString();
                 Font font = FontFactory.GetFont(FontFactory.COURIER, fontSize, Font.NORMAL, BaseColor.BLACK);
                 string[] chars = new string[text.Length];
@@ -111,15 +126,15 @@ namespace blindfolio
 
                 // ノンブル記入のためにページ内容の取得
                 PdfContentByte a_page = stamper.GetOverContent(page);
-                a_page.SaveState();  //グラフィックステートを退避
-                a_page.SetGState(gs);//グラフィックステートの設定
+                //a_page.SaveState();  //グラフィックステートを退避
+                //a_page.SetGState(gs);//グラフィックステートの設定
                     
                 // ノンブルの記入
                 ColumnText ct = new ColumnText(a_page);
                 ct.SetSimpleColumn(phrase, lx, ly, rx, uy, fontSize, align);
                 ct.Go();
 
-                a_page.RestoreState(); //グラフィックステートの復帰
+                //a_page.RestoreState(); //グラフィックステートの復帰
             }
             // ファイルを閉じる
             stamper.Close();
