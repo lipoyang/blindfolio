@@ -15,10 +15,9 @@ namespace blindfolio
         static void Main(string[] args)
         {
             // パラメータチェック
-            if(args.Length != 5)
-            {
+            if(args.Length != 6){
                 Console.WriteLine("Bad parameters!");
-                Console.WriteLine("Usage: blindfolio inputfile outputfile foot gutter start");
+                Console.WriteLine("Usage: blindfolio inputfile outputfile foot gutter start size");
                 return;
             }
             string inputFileName  = args[0];
@@ -26,36 +25,40 @@ namespace blindfolio
             float footOffset   = 0.0f;
             float gutterOffset = 0.0f;
             int startNombre = 1;
+            float fontSize = 8;
             if (!System.IO.File.Exists(inputFileName))
             {
                 Console.WriteLine("Input file not found!");
-                Console.WriteLine("Usage: blindfolio inputfile outputfile foot gutter start");
+                Console.WriteLine("Usage: blindfolio inputfile outputfile foot gutter start size");
             }
-            try
-            {
+            try{
                 footOffset = float.Parse(args[2]);
                 footOffset = (footOffset * 72.0f) / 25.4f; // mmからptに換算
-            }
-            catch{
+            }catch{
                 Console.WriteLine("Invalid foot offset!");
-                Console.WriteLine("Usage: blindfolio inputfile outputfile foot gutter start");
+                Console.WriteLine("Usage: blindfolio inputfile outputfile foot gutter start size");
                 return;
             }
             try{
                 gutterOffset = float.Parse(args[3]);
                 gutterOffset = (gutterOffset * 72.0f) / 25.4f; // mmからptに換算
-            }
-            catch
-            {
+            }catch{
                 Console.WriteLine("Invalid gutter offset!");
-                Console.WriteLine("Usage: blindfolio inputfile outputfile foot gutter start");
+                Console.WriteLine("Usage: blindfolio inputfile outputfile foot gutter start size");
                 return;
             }
             try{
                 startNombre = int.Parse(args[4]);
             }catch{
                 Console.WriteLine("Invalid start nombre!");
-                Console.WriteLine("Usage: blindfolio inputfile outputfile foot gutter start");
+                Console.WriteLine("Usage: blindfolio inputfile outputfile foot gutter start size");
+                return;
+            }
+            try{
+                fontSize = float.Parse(args[5]);
+            }catch{
+                Console.WriteLine("Invalid font size!");
+                Console.WriteLine("Usage: blindfolio inputfile outputfile foot gutter start size");
                 return;
             }
 
@@ -68,16 +71,13 @@ namespace blindfolio
             PdfGState gs = new PdfGState();
             gs.FillOpacity = 1.0f;
 
-            // フォントサイズ TODO
-            float FontSize = 8;
-
             // 各ページについて
             int totalPageNum = reader.NumberOfPages; // 総ページ数
             for (int page = 1; page <= totalPageNum; page++)
             {
                 // 隠しノンブルの文字列
                 string text = (startNombre + page - 1).ToString();
-                Font font = FontFactory.GetFont(FontFactory.COURIER, FontSize, Font.NORMAL, BaseColor.BLACK);
+                Font font = FontFactory.GetFont(FontFactory.COURIER, fontSize, Font.NORMAL, BaseColor.BLACK);
                 string[] chars = new string[text.Length];
                 for(int i = 0; i < text.Length; i++){
                     chars[i] = new string(text[i], 1);
@@ -93,7 +93,7 @@ namespace blindfolio
 
                 // 隠しノンブルのy座標
                 float ly = footOffset;
-                float uy = footOffset + FontSize * text.Length;
+                float uy = footOffset + fontSize * text.Length;
                 // 隠しノンブルのx座標
                 int align;
                 float lx, rx;
@@ -102,26 +102,25 @@ namespace blindfolio
                     align = Element.ALIGN_RIGHT;
                     lx = 0;
                     rx = pageSize.Width - gutterOffset;
-                }
-                else
-                {
+                }else{
                     // 奇数ページは左側がノド
                     align = Element.ALIGN_LEFT;
                     lx = gutterOffset;
                     rx = pageSize.Width;
                 }
+
+                // ノンブル記入のためにページ内容の取得
                 PdfContentByte a_page = stamper.GetOverContent(page);
-                a_page.SaveState();//グラフィックステートを退避
-                a_page.SetGState(gs);// グラフィックステートの設定
+                a_page.SaveState();  //グラフィックステートを退避
+                a_page.SetGState(gs);//グラフィックステートの設定
+                    
+                // ノンブルの記入
+                ColumnText ct = new ColumnText(a_page);
+                ct.SetSimpleColumn(phrase, lx, ly, rx, uy, fontSize, align);
+                ct.Go();
 
-                ColumnText ct = new ColumnText(a_page);    // テキスト欄の新規作成
-                ct.SetSimpleColumn(             // テキスト欄の内容(スタンプ)と配置を設定
-                    phrase, lx, ly, rx, uy, FontSize, align);
-                ct.Go();                        // テキスト欄の出力
-
-                a_page.RestoreState();
+                a_page.RestoreState(); //グラフィックステートの復帰
             }
-
             // ファイルを閉じる
             stamper.Close();
             fs.Close();
