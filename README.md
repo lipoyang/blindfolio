@@ -8,7 +8,11 @@ WindowsのコマンドプロンプトまたはPowerShell用です。
 製本すると見えにくくなるようにノド側に入れるページ番号。製本のために必要な場合があります。
 
 ## 依存ライブラリ
-* iTextSharp
+* [iTextSharp](https://www.nuget.org/packages/iTextSharp/)
+
+Visual Studioでソリューションを開き、「ツール」→「NuGetパッケージマネージャ」→「ソリューションのNuGetパッケージの管理」で「復元」をクリックするとiTextSharpがインストールされます。
+
+<img src="nuget.png" alt="図" width="640" />
 
 ## 使い方
 
@@ -25,6 +29,6 @@ blindfolio inputfile outputfile foot gutter start size
 
 ## 例
 ```
-blindfolio input.pdf output.pdf 30 20 1 6
+blindfolio input.pdf output.pdf 30 20 1 8
 ```
 input.pdfに、地から30mm、ノドから20mmの位置に1から始まる隠しノンブルを6ptのフォントで記入し、output.pdfとして出力します。
