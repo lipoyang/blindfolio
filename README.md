@@ -23,7 +23,7 @@ blindfolio inputfile outputfile foot gutter start size
 ```
 blindfolio input.pdf output.pdf 30 20 1 8
 ```
-input.pdfに、地から30mm、ノドから20mmの位置に1から始まる隠しノンブルを6ptのフォントで記入し、output.pdfとして出力します。
+input.pdfに、地から30mm、ノドから20mmの位置に1から始まる隠しノンブルを8ptのフォントで記入し、output.pdfとして出力します。
 
 ## 実行バイナリ
 Visual Studioでビルドするか、下記からダウンロードし、適当な場所にコピーして使ってください。
