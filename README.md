@@ -5,14 +5,16 @@ PDFに隠しノンブルを追加するコマンドラインツール
 WindowsのコマンドプロンプトまたはPowerShell用です。
 
 ## 隠しノンブルとは
-製本すると見えにくくなるようにノド側に入れるページ番号。製本のために必要な場合があります。
+製本すると見えにくくなるようにノド側に入れるページ番号。印刷所によっては必要な場合があります。大扉からの通し番号を振るので通常のページ番号とは一致しない場合があります。
+
+<img src="blindfolio.png" alt="図" width="720" />
 
 ## 依存ライブラリ
 * [iTextSharp](https://www.nuget.org/packages/iTextSharp/)
 
 Visual Studioでソリューションを開き、「ツール」→「NuGetパッケージマネージャ」→「ソリューションのNuGetパッケージの管理」で「復元」をクリックするとiTextSharpがインストールされます。
 
-<img src="nuget.png" alt="図" width="640" />
+<img src="nuget.png" alt="図" width="720" />
 
 ## 使い方
 
