@@ -1,20 +1,10 @@
 # blindfolio
-PDFに隠しノンブルを追加するコマンドラインツール
-
-## プラットフォーム
-WindowsのコマンドプロンプトまたはPowerShell用です。
+PDFに隠しノンブルを追加するコマンドラインツール (Windows用)
 
 ## 隠しノンブルとは
 製本すると見えにくくなるようにノド側に入れるページ番号。印刷所によっては必要な場合があります。大扉からの通し番号を振るので通常のページ番号とは一致しない場合があります。
 
 <img src="blindfolio.png" alt="図" width="720" />
-
-## 依存ライブラリ
-* [iTextSharp](https://www.nuget.org/packages/iTextSharp/)
-
-Visual Studioでソリューションを開き、「ツール」→「NuGetパッケージマネージャ」→「ソリューションのNuGetパッケージの管理」で「復元」をクリックするとiTextSharpがインストールされます。
-
-<img src="nuget.png" alt="図" width="720" />
 
 ## 使い方
 
@@ -34,3 +24,14 @@ blindfolio inputfile outputfile foot gutter start size
 blindfolio input.pdf output.pdf 30 20 1 8
 ```
 input.pdfに、地から30mm、ノドから20mmの位置に1から始まる隠しノンブルを6ptのフォントで記入し、output.pdfとして出力します。
+
+## 実行バイナリ
+Visual Studioでビルドするか、下記からダウンロードし、適当な場所にコピーして使ってください。
+https://github.com/lipoyang/blindfolio/releases
+
+## 依存ライブラリ
+* [iTextSharp](https://www.nuget.org/packages/iTextSharp/)
+
+Visual Studioでソリューションを開き、「ツール」→「NuGetパッケージマネージャ」→「ソリューションのNuGetパッケージの管理」で「復元」をクリックするとiTextSharpがソリューションにインストールされます。
+
+<img src="nuget.png" alt="図" width="720" />
