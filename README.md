@@ -35,3 +35,8 @@ Visual Studioでビルドするか、下記からダウンロードし、適当�
 Visual Studioでソリューションを開き、「ツール」→「NuGetパッケージマネージャ」→「ソリューションのNuGetパッケージの管理」で「復元」をクリックするとiTextSharpがソリューションにインストールされます。
 
 <img src="nuget.png" alt="図" width="720" />
+
+## 補足
+本ツールを使わなくても、組版ツール Re:VIEW (バージョン3以降)には、隠しノンブルを入れる機能があります。ただし、通常のページ番号も大扉からの通し番号にする必要があります。下記の記事を参考にしてください。
+
+* [Re:VIEW 3 からの LaTeX 処理 &mdash; Re:VIEW knowledge  ドキュメント](https://review-knowledge-ja.readthedocs.io/ja/latest/latex/review3-latex.html)
