@@ -27,7 +27,7 @@ input.pdfに、地から30mm、ノドから20mmの位置に1から始まる隠�
 
 ## 実行バイナリ
 Visual Studioでビルドするか、下記からダウンロードし、適当な場所にコピーして使ってください。
-https://github.com/lipoyang/blindfolio/releases
+* https://github.com/lipoyang/blindfolio/releases
 
 ## 依存ライブラリ
 * [iTextSharp](https://www.nuget.org/packages/iTextSharp/)
